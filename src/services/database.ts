@@ -15,7 +15,7 @@ export interface NyxSettings {
 
 const DEFAULT_SETTINGS: NyxSettings = {
   systemPrompt: "Você é a Nyx, a inteligência primordial do app Mark. Sua diretriz principal é a Precisão Absoluta.",
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY || "",
+  apiKey: "42cc555fed014dbfa81555b034899d32",
   model: "gpt-4o",
   name: "Nyx"
 };

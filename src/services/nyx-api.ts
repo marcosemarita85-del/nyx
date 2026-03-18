@@ -43,12 +43,16 @@ export const NyxApiService = {
    * Gera uma resposta de chat real via API da OpenAI.
    */
   async chatResponse(userMessage: string): Promise<string> {
+    const key = this.getApiKey();
+    if (!key) return "Nyx: Nenhuma chave de acesso detectada. Por favor, configure-a no Nyx Core.";
+
     try {
+      console.log(`Nyx: Enviando mensagem com a chave: ${key.substring(0, 5)}...`);
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.getApiKey()}`
+          'Authorization': `Bearer ${key}`
         },
         body: JSON.stringify({
           model: this.getModel(),
@@ -60,14 +64,18 @@ export const NyxApiService = {
         })
       });
 
-      const data = await response.json();
-      if (data.error) throw new Error(data.error.message);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Nyx API Error Details:", errorData);
+        throw new Error(errorData.error?.message || `Erro HTTP: ${response.status}`);
+      }
 
+      const data = await response.json();
       const draft = data.choices[0].message.content;
       return await this.selfCorrect(draft);
     } catch (error: any) {
       console.error("Nyx Chat Error:", error.message);
-      return "Minha conexão com a rede primordial foi interrompida. Por favor, verifique a chave de acesso.";
+      return `Conexão interrompida: ${error.message}. Verifique sua chave no Nyx Core.`;
     }
   },
   async checkQuality(file: File): Promise<boolean> {
