@@ -3,7 +3,7 @@ import {
   Send, Bot, User, Loader2, Plus, 
   Image as ImageIcon, Mic, FileText, 
   Menu, History, Settings, MoreVertical, X,
-  Trash2, Download, Copy, Check, LogIn, Sparkles, Film
+  Trash2, Download, Copy, Check, LogIn, Film
 } from 'lucide-react';
 import { NyxDatabase } from '../services/database';
 import { NyxApiService } from '../services/nyx-api';
@@ -57,7 +57,7 @@ const GeminiInterface: React.FC = () => {
     localStorage.setItem('nyx_is_logged_in', 'true');
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, filter?: string) => {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files).map(file => ({
         name: file.name,
@@ -349,7 +349,7 @@ const GeminiInterface: React.FC = () => {
                   <Film className="w-6 h-6" />
                 </button>
                 <button 
-                  onClick={handleSend}
+                  onClick={() => handleSend()}
                   disabled={!input.trim() && attachments.length === 0}
                   className={`p-2 md:p-3 rounded-full transition-all ${input.trim() ? 'text-[#8ab4f8] hover:bg-[#333537]' : 'text-[#4e4f50]'}`}
                 >

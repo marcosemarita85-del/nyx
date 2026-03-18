@@ -146,4 +146,13 @@ export const NyxApiService = {
       message: "A Nyx está tecendo os frames da noite. O vídeo estará pronto em breve." 
     };
   },
+
+  /**
+   * Simula a geração de voz via ElevenLabs.
+   */
+  async generateVoice(text: string) {
+    console.log(`Nyx enviando para ElevenLabs: ${text}`);
+    // Chamada real da API seria aqui
+    return { success: true, model: NYX_CONFIG.models.voice, url: 'assets/outputs/nyx_voice_result.mp3' };
+  }
 };
